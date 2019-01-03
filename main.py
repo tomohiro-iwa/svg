@@ -5,84 +5,140 @@ from f import *
 
 
 boxes = []
-g = SVG.SVG(850,1300)
+g = SVG.SVG(850,1400)
 g.append(open("define.svg").read())
 
-concat1 = Concat(  0, 400)
-concat2 = Concat(100, 450)
-boxes.append(concat1)
-boxes.append(concat2)
+concat = [None,None]
+concat[0] = Concat( 0, 450)
+concat[1] = Concat(70, 500)
 
-for i in range(2):
-	if i == 0:
-		x = 200
-		y = 900
-	if i == 1:
-		x = 200
-		y = 500
-
-	for i in range(3):
-		boxes.append(LSTM(x+225*i,y))
-	g.append(line(boxes[-1],boxes[-2],"r"))
-	g.append(line(boxes[-2],boxes[-3],"r"))
-
-	for i in range(3):
-		boxes.append(LSTM(x+225*i,y+90))
-	g.append(line(boxes[-1],boxes[-2],"r"))
-	g.append(line(boxes[-2],boxes[-3],"r"))
-
-	for i in range(3):
-		boxes.append(Emb(x+225*i,y+180))
-
-	for i in range(3):
-		boxes.append(Hotvec(x-25+225*i,y+270))
-
-	for i in range(3):
-		g.append(line(boxes[-1-i],boxes[-4-i],"d"))
-		g.append(line(boxes[-4-i],boxes[-7-i],"d"))
-		g.append(line(boxes[-7-i],boxes[-10-i],"d"))
-
-
-	g.append(line(boxes[-9],concat2, "d",
-	relay=[(concat2.cx,boxes[-9].cy)]
-	) )
-	g.append(line(boxes[-12],concat1, "d",
-	relay=[(concat1.cx,boxes[-12].cy)]
-	) )
-
-	for i in boxes:
-		g.append(i.tostr())
-
-x = 200
+x = 170
 y = 0
 
-for i in range(3):
-	boxes.append(Hotvec(x-25+225*i,y))
+
+boxes = [[] for i in range(3)]
+
+boxes[0] = [[None for j in range(3)] for i in range(6)]
 
 for i in range(3):
-	boxes.append(W(x+225*i,y+90))
+	boxes[0][0][i] = (Word(x-15+225*i,y))
 
 for i in range(3):
-	boxes.append(LSTM(x+225*i,y+180))
-
-g.append(line(boxes[-2],boxes[-1],"l"))
-g.append(line(boxes[-3],boxes[-2],"l"))
+	boxes[0][1][i] = (Hotvec(x-15+225*i,y+30))
 
 for i in range(3):
-	boxes.append(LSTM(x+225*i,y+270))
-g.append(line(boxes[-2],boxes[-1],"l"))
-g.append(line(boxes[-3],boxes[-2],"l"))
+	boxes[0][2][i] = (W(x+225*i,y+120))
 
 for i in range(3):
-	boxes.append(Emb(x+225*i,y+370))
-
+	boxes[0][3][i] = (LSTM(x+225*i,y+210))
 
 for i in range(3):
-	g.append(line(boxes[-1-i],boxes[-4-i],"d"))
-	g.append(line(boxes[-4-i],boxes[-7-i],"d"))
-	g.append(line(boxes[-7-i],boxes[-10-i],"d"))
-	g.append(line(boxes[-10-i],boxes[-13-i],"d"))
+	boxes[0][4][i] = (LSTM(x+225*i,y+300))
+
+for i in range(3):
+	boxes[0][5][i] = (Emb(x+225*i,y+390))
+
+#line
+for j in range(5,1,-1):
+	for k in range(3):
+		a = boxes[0][j][k]
+		b = boxes[0][j-1][k]
+		g.append(line(a,b,"d"))
+
+for j in [3,4]:
+	for k in [0,1]:
+		a = boxes[0][j][k]
+		b = boxes[0][j][k+1]
+		g.append(line(a,b,"l"))
+for i in [0,1]:
+		a = boxes[0][1][i]
+		b = boxes[0][5][i+1]
+		relay = [
+			(a.x+200,a.cy),
+			(a.x+200,b.cy)
+		]
+		avoid = [
+			(a.x+200,boxes[0][3][i].cy),
+			(a.x+200,boxes[0][4][i].cy)
+		]
+		g.append(line(a,b,"l",relay=relay,avoid=avoid))
+
+for j in [3,4]:
+	a = concat[j-3]
+	b = boxes[0][j][0]
+	relay=[(a.cx,b.cy)]
+	g.append(line(a,b,"l",relay=relay))
+
+g.append(concat[0].tostr())
+g.append(concat[1].tostr())
+
+boxes[1] = [[None for j in range(3)] for i in range(4)]
+boxes[2] = [[None for j in range(3)] for i in range(4)]
+for i in range(1,3):
+	if i == 1:
+		x = 170
+		y = 550
+	if i == 2:
+		x = 170
+		y = 950
+
+	for j in range(3):
+		boxes[i][0][j] = (LSTM(x+225*j,y))
+
+	for j in range(3):
+		boxes[i][1][j] = (LSTM(x+225*j,y+80))
+
+	for j in range(3):
+		boxes[i][2][j] = (Emb(x+225*j,y+160))
+
+	for j in range(3):
+		boxes[i][3][j] = (Hotvec(x-15+225*j,y+240))
+
+	#line
+	for j in range(3,0,-1):
+		for k in range(3):
+			a = boxes[i][j][k]
+			b = boxes[i][j-1][k]
+			g.append(line(a,b,"d"))
+	for j in [0,1]:
+		for k in [2,1]:
+			a = boxes[i][j][k]
+			b = boxes[i][j][k-1]
+			g.append(line(a,b,"r"))
+		
+a = boxes[1][0][0]
+b = concat[0]
+relay=[(b.cx,a.cy)]
+avoid=[(concat[1].cx,a.cy)]
+g.append(line(a,b,"d",relay=relay,avoid=avoid))
+
+a = boxes[1][1][0]
+b = concat[1]
+relay=[(b.cx,a.cy)]
+g.append(line(a,b,"d",relay=relay))
+
+a = boxes[2][0][0]
+b = concat[0]
+relay=[(b.cx,a.cy)]
+avoid=[(concat[1].cx,a.cy)]
+g.append(line(a,b,"d",relay=relay,avoid=avoid))
+
+a = boxes[2][1][0]
+b = concat[1]
+relay=[(b.cx,a.cy)]
+g.append(line(a,b,"d",relay=relay))
+
 
 for i in boxes:
-	g.append(i.tostr())
+	for j in i:
+		for k in j:
+			g.append(k.tostr())
+
+#	g.append(line(boxes[-9],concat2, "d",
+#	relay=[(concat2.cx,boxes[-9].cy)]
+#	) )
+#	g.append(line(boxes[-12],concat1, "d",
+#	relay=[(concat1.cx,boxes[-12].cy)]
+#	) )
+
 print(g.tostr())
