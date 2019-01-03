@@ -1,0 +1,36 @@
+
+<symbol id="lstm">
+	<rect x="0" y="0" width="150" height="50" 
+		fill="#ffffff" stroke="#000000" stroke-width="4"/>
+	<text x="75" y="35" text-anchor="middle"
+		fill="#000000" stroke="#000000" style="font-size:32px">L S T M</text>
+</symbol>
+
+<symbol id="concat">
+	<ellipse cx="50" cy="25" rx="50" ry="25" fill="#ffffff" stroke="#000000" stroke-width="4" />
+	<text x="50" y="30" text-anchor="middle"
+		fill="#000000" stroke="#000000" style="font-size:32px">conat</text>
+</symbol>
+
+<symbol id="emb">
+	<rect x="0" y="0" width="150" height="50" 
+		fill="#ffffff" stroke="#000000" stroke-width="4"/>
+	<text x="75" y="35" text-anchor="middle"
+		fill="#000000" stroke="#000000" style="font-size:32px"> embed </text>
+</symbol>
+
+<symbol id="w">
+	<rect x="0" y="0" width="150" height="50" 
+		fill="#ffffff" stroke="#000000" stroke-width="4"/>
+	<text x="75" y="35" text-anchor="middle"
+		fill="#000000" stroke="#000000" style="font-size:32px">W</text>
+</symbol>
+
+<symbol id="wave">
+<polyline points="15.000000,0.000000 12.527864,2.500000 10.297718,5.000000 8.527864,7.500000 7.391548,10.000000 7.000000,12.500000 7.391548,15.000000 8.527864,17.500000 10.297718,20.000000 12.527864,22.500000 15.000000,25.000000 17.472136,27.500000 19.702282,30.000000 21.472136,32.500000 22.608452,35.000000 23.000000,37.500000 22.608452,40.000000 21.472136,42.500000 19.702282,45.000000 17.472136,47.500000 15.000000,50.000000 " fill="none" stroke="#000000" stroke-width="4" />
+</symbol>
+
+<marker id="arrow" viewBox="-5 -5 10 10" orient="auto">
+  <polygon points="-5,-5 5,0 -5,5" fill="black" stroke="none" />
+</marker>
+
