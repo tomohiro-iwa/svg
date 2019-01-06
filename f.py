@@ -111,7 +111,7 @@ class Hotvec(Node):
 			if i == self.one:
 				color = "#000000"
 			else:
-				color ="#ffffff"
+				color = "#ffffff"
 			txt += tmp % (20+35*i,color)
 		txt += '</g>'
 		return txt
@@ -119,8 +119,8 @@ class Hotvec(Node):
 class Concat(Node):
 	def __init__(self,x,y):
 		super().__init__(x,y)
-		self.w = 100
-		self.h = 50
+		self.w = 140
+		self.h = 60
 		self.update()
 	
 	def tostr(self):
